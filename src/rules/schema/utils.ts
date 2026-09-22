@@ -1,4 +1,5 @@
 import type { CheerioAPI } from 'cheerio';
+import type { SchemaNodeSummary } from '../../types.js';
 
 /**
  * Represents a typed item extracted from JSON-LD
@@ -143,4 +144,95 @@ export function hasField(item: TypedItem, field: string): boolean {
  */
 export function getMissingFields(item: TypedItem, required: string[]): string[] {
   return required.filter((field) => !hasField(item, field));
+}
+
+const REF_KEYS = ['publisher', 'author', 'isPartOf', 'mainEntityOfPage', 'about', 'brand', 'provider'];
+const NODE_CAP = 40;
+
+function textValue(value: unknown): string | undefined {
+  if (typeof value === 'string' && value.trim()) return value.trim();
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  return undefined;
+}
+
+function idFrom(value: unknown): string | undefined {
+  const direct = textValue(value);
+  if (direct && (typeof value !== 'object' || value === null)) return direct;
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  return textValue((value as Record<string, unknown>)['@id']);
+}
+
+function addressOf(value: unknown): string | undefined {
+  const direct = textValue(value);
+  if (direct) return direct;
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  const record = value as Record<string, unknown>;
+  const parts = ['streetAddress', 'addressLocality', 'addressRegion', 'postalCode', 'addressCountry']
+    .map((key) => {
+      const part = record[key];
+      return textValue(part) ?? (
+        part && typeof part === 'object' && !Array.isArray(part)
+          ? textValue((part as Record<string, unknown>).name)
+          : undefined
+      );
+    })
+    .filter((part): part is string => Boolean(part));
+  return parts.length > 0 ? parts.join(', ') : undefined;
+}
+
+function refsFrom(data: Record<string, unknown>): string[] {
+  const refs: string[] = [];
+  for (const key of REF_KEYS) {
+    const value = data[key];
+    const items = Array.isArray(value) ? value : [value];
+    for (const item of items) {
+      const id = idFrom(item);
+      if (id) refs.push(id);
+    }
+  }
+  return refs;
+}
+
+/**
+ * Reduce a page's JSON-LD to the identity fields a crawl can keep without
+ * the HTML. Invalid scripts are skipped, the same way schema-valid reports them.
+ *
+ * @param $ - Parsed page
+ * @returns Up to 40 typed nodes
+ */
+export function summarizeSchemaNodes($: CheerioAPI): SchemaNodeSummary[] {
+  const nodes: SchemaNodeSummary[] = [];
+  const seen = new Set<string>();
+
+  for (const script of extractJsonLdScripts($)) {
+    for (const item of extractTypedItems(script)) {
+      const id = textValue(item.data['@id']);
+      const name = textValue(item.data.name);
+      const key = `${id ?? ''}|${item.type}|${name ?? ''}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      const node: SchemaNodeSummary = {
+        types: [item.type],
+        refs: refsFrom(item.data),
+      };
+      if (id) node.id = id;
+      if (name) node.name = name;
+      const logo = textValue(item.data.logo) ?? textValue(
+        item.data.logo && typeof item.data.logo === 'object' && !Array.isArray(item.data.logo)
+          ? (item.data.logo as Record<string, unknown>).url
+          : undefined
+      );
+      if (logo) node.logo = logo;
+      const telephone = textValue(item.data.telephone);
+      if (telephone) node.telephone = telephone;
+      const address = addressOf(item.data.address);
+      if (address) node.address = address;
+
+      nodes.push(node);
+      if (nodes.length >= NODE_CAP) return nodes;
+    }
+  }
+
+  return nodes;
 }

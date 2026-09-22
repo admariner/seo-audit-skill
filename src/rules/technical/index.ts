@@ -23,6 +23,7 @@ import { emptyHtmlRule } from './empty-html.js';
 import { formGetMethodRule } from './form-get-method.js';
 import { duplicateGtmRule } from './duplicate-gtm.js';
 import { duplicateGaRule } from './duplicate-ga.js';
+import { consentModeRule } from './consent-mode.js';
 
 // Export all rules
 export {
@@ -43,6 +44,7 @@ export {
   formGetMethodRule,
   duplicateGtmRule,
   duplicateGaRule,
+  consentModeRule,
 };
 
 // Register all rules
@@ -63,3 +65,4 @@ registerRule(emptyHtmlRule);
 registerRule(formGetMethodRule);
 registerRule(duplicateGtmRule);
 registerRule(duplicateGaRule);
+registerRule(consentModeRule);

@@ -73,22 +73,26 @@ export function makeBaselineFetch() {
  * `core` moved 98 → 99 in 5.0.0, when the five presence checks went from
  * weight 1 to 10-25. The fixture has a title, description, h1, viewport and
  * canonical, so weighting them properly raises its score — which is the
- * direction the change is meant to move a well-formed page. The counts are
- * unchanged: the same rules pass, they just carry their proper weight.
+ * direction the change is meant to move a well-formed page.
+ *
+ * Coverage rules that pass on this fixture add passes in content, a11y,
+ * perf, security, technical, and eeat. Crawl-only rules stay unmeasured.
+ * Origin probes that 404 (AGENTS.md, agent manifests, Markdown) add geo
+ * warnings. The overall score is re-pinned when those counts move it.
  */
 const EXPECTED_CATEGORIES: Record<string, [number, number, number, number, number]> = {
   core: [99, 22, 1, 1, 0],
-  technical: [99, 16, 0, 1, 0],
-  perf: [89, 13, 5, 0, 8],
-  links: [97, 16, 1, 1, 6],
+  technical: [99, 17, 0, 1, 0],
+  perf: [90, 15, 5, 0, 8],
+  links: [97, 17, 1, 1, 8],
   images: [59, 8, 4, 2, 0],
-  security: [75, 12, 6, 3, 2],
-  crawl: [99, 19, 1, 0, 15],
-  schema: [91, 11, 2, 0, 0],
-  a11y: [98, 30, 1, 0, 0],
-  content: [95, 17, 0, 1, 1],
+  security: [78, 15, 6, 3, 2],
+  crawl: [99, 21, 1, 0, 16],
+  schema: [92, 13, 2, 0, 4],
+  a11y: [98, 35, 1, 0, 0],
+  content: [97, 23, 0, 1, 3],
   social: [61, 4, 3, 2, 0],
-  eeat: [87, 11, 3, 0, 0],
+  eeat: [87, 12, 3, 0, 1],
   url: [100, 14, 0, 0, 0],
   mobile: [90, 6, 1, 0, 5],
   i18n: [100, 12, 0, 0, 1],
@@ -96,9 +100,9 @@ const EXPECTED_CATEGORIES: Record<string, [number, number, number, number, numbe
   js: [100, 3, 0, 0, 13],
   redirect: [100, 8, 0, 0, 3],
   htmlval: [100, 11, 0, 0, 0],
-  geo: [80, 3, 2, 0, 0],
+  geo: [81, 8, 5, 0, 0],
 };
-const EXPECTED_OVERALL = 90;
+const EXPECTED_OVERALL = 91;
 
 describe('scoring baseline', () => {
   beforeEach(() => {

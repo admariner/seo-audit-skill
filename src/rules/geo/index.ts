@@ -20,6 +20,14 @@ import { contentStructureRule } from './content-structure.js';
 import { aiBotAccessRule } from './ai-bot-access.js';
 import { llmsTxtRule } from './llms-txt.js';
 import { schemaDriftRule } from './schema-drift.js';
+import { contentSignalsRule } from './content-signals.js';
+import { noaiSignalsRule } from './noai-signals.js';
+import { agentsMdRule } from './agents-md.js';
+import { wellKnownAgentRule } from './well-known.js';
+import { rslLicenseRule } from './rsl-license.js';
+import { markdownResponseRule } from './markdown-response.js';
+import { markdownPageRule } from './markdown-page.js';
+import { payPerCrawlRule } from './pay-per-crawl.js';
 
 // Export all rules
 export {
@@ -28,6 +36,14 @@ export {
   aiBotAccessRule,
   llmsTxtRule,
   schemaDriftRule,
+  contentSignalsRule,
+  noaiSignalsRule,
+  agentsMdRule,
+  wellKnownAgentRule,
+  rslLicenseRule,
+  markdownResponseRule,
+  markdownPageRule,
+  payPerCrawlRule,
 };
 
 // Register all rules
@@ -36,3 +52,11 @@ registerRule(contentStructureRule);
 registerRule(aiBotAccessRule);
 registerRule(llmsTxtRule);
 registerRule(schemaDriftRule);
+registerRule(contentSignalsRule);
+registerRule(noaiSignalsRule);
+registerRule(agentsMdRule);
+registerRule(wellKnownAgentRule);
+registerRule(rslLicenseRule);
+registerRule(markdownResponseRule);
+registerRule(markdownPageRule);
+registerRule(payPerCrawlRule);

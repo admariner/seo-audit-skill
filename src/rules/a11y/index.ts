@@ -40,6 +40,11 @@ import { redundantAltRule } from './redundant-alt.js';
 import { tableCaptionRule } from './table-caption.js';
 import { identicalLinksPurposeRule } from './identical-links-purpose.js';
 import { labelNameMismatchRule } from './label-name-mismatch.js';
+import { buttonNameRule } from './button-name.js';
+import { autocompleteRule } from './autocomplete.js';
+import { xmlLangMismatchRule } from './xml-lang-mismatch.js';
+import { ariaHiddenBodyRule } from './aria-hidden-body.js';
+import { ariaRequiredRule } from './aria-required.js';
 
 // Export all rules
 export {
@@ -74,6 +79,11 @@ export {
   tableCaptionRule,
   identicalLinksPurposeRule,
   labelNameMismatchRule,
+  buttonNameRule,
+  autocompleteRule,
+  xmlLangMismatchRule,
+  ariaHiddenBodyRule,
+  ariaRequiredRule,
 };
 
 // Register all rules
@@ -108,3 +118,8 @@ registerRule(redundantAltRule);
 registerRule(tableCaptionRule);
 registerRule(identicalLinksPurposeRule);
 registerRule(labelNameMismatchRule);
+registerRule(buttonNameRule);
+registerRule(autocompleteRule);
+registerRule(xmlLangMismatchRule);
+registerRule(ariaHiddenBodyRule);
+registerRule(ariaRequiredRule);

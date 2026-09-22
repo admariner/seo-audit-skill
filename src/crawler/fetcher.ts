@@ -343,11 +343,15 @@ function extractLinks($: CheerioAPI, baseUrl: string): LinkExtractionResult {
       const rel = $el.attr('rel') || '';
       const isNoFollow = rel.toLowerCase().includes('nofollow');
 
+      const inChrome =
+        $el.closest('nav, header, footer, [role="navigation"], [role="banner"], [role="contentinfo"]').length > 0;
+
       links.push({
         href: normalizedHref,
         text,
         isInternal,
         isNoFollow,
+        inChrome,
       });
     } catch {
       // Malformed URL

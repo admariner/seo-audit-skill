@@ -20,6 +20,12 @@ import { structuredDataProductRule } from './product.js';
 import { structuredDataReviewRule } from './review.js';
 import { structuredDataVideoRule } from './video.js';
 import { structuredDataWebsiteSearchRule } from './website-search.js';
+import { entityIdRule } from './entity-id.js';
+import { ratingScopeRule } from './rating-scope.js';
+import { entityConflictRule } from './entity-conflict.js';
+import { entityDanglingRule } from './entity-dangling.js';
+import { entityTypeDriftRule } from './entity-type-drift.js';
+import { entitySplitRule } from './entity-split.js';
 
 // Export all rules
 export {
@@ -36,6 +42,12 @@ export {
   structuredDataReviewRule,
   structuredDataVideoRule,
   structuredDataWebsiteSearchRule,
+  entityIdRule,
+  ratingScopeRule,
+  entityConflictRule,
+  entityDanglingRule,
+  entityTypeDriftRule,
+  entitySplitRule,
 };
 
 // Register all rules
@@ -52,3 +64,9 @@ registerRule(structuredDataProductRule);
 registerRule(structuredDataReviewRule);
 registerRule(structuredDataVideoRule);
 registerRule(structuredDataWebsiteSearchRule);
+registerRule(entityIdRule);
+registerRule(ratingScopeRule);
+registerRule(entityConflictRule);
+registerRule(entityDanglingRule);
+registerRule(entityTypeDriftRule);
+registerRule(entitySplitRule);

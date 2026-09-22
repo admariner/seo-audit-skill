@@ -2,6 +2,9 @@ import * as cheerio from 'cheerio';
 import { fetchPage as defaultFetchPage, createAuditContext, type FetchPageOptions, type FetchResult } from './fetcher.js';
 import { rethrowIfAborted, throwIfAborted } from '../errors.js';
 import type { AssetInfo, AuditContext, CoreWebVitals, DiscoverySource, InboundEdge, RenderDiagnostics, SiteContext, SitePageInfo } from '../types.js';
+import { summarizeSchemaNodes } from '../rules/schema/utils.js';
+import { pageKindFrom } from '../rules/content/page-kind.js';
+import { countWords, extractMainContent } from '../rules/content/utils/text-extractor.js';
 import { UrlFilter, type UrlFilterOptions } from './url-filter.js';
 import { RobotsMatcher } from './robots.js';
 import { getUserAgent } from './user-agent.js';
@@ -443,7 +446,12 @@ export class Crawler {
           edges = [];
           inboundEdgesByUrl.set(to, edges);
         }
-        edges.push({ from, nofollow: link.isNoFollow, anchor: link.text.trim() });
+        edges.push({
+          from,
+          nofollow: link.isNoFollow,
+          anchor: link.text.trim(),
+          chrome: link.inChrome === true,
+        });
       }
 
       outboundLinksByUrl.set(from, targets);
@@ -515,6 +523,17 @@ export class Crawler {
 
     const h1 = $('h1').first().text().trim();
     if (h1) info.h1 = h1;
+
+    const title = $('title').first().text().replace(/\s+/g, ' ').trim();
+    if (title) info.title = title;
+    info.wordCount = countWords(extractMainContent($));
+
+    const schemaNodes = summarizeSchemaNodes($);
+    info.pageKind = pageKindFrom(
+      schemaNodes.flatMap((node) => node.types),
+      page.url
+    );
+    if (schemaNodes.length > 0) info.schemaNodes = schemaNodes;
 
     return info;
   }

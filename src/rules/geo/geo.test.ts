@@ -1,5 +1,8 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { aiBotAccessRule } from './ai-bot-access.js';
+import { contentSignalsRule } from './content-signals.js';
+import { noaiSignalsRule } from './noai-signals.js';
+import { createTestContext } from '../test-context.js';
 import type { AuditContext } from '../../types.js';
 import * as cheerio from 'cheerio';
 
@@ -104,5 +107,63 @@ describe('aiBotAccessRule', () => {
     stubRobotsTxt(null);
     const result = await aiBotAccessRule.run(createContext());
     expect(result.status).toBe('pass');
+  });
+});
+
+describe('contentSignalsRule', () => {
+  it('is not measured when robots.txt was not fetched', async () => {
+    const result = await contentSignalsRule.run(createTestContext('<html></html>'));
+    expect(result.status).toBe('not-measured');
+    expect(result.weight).toBe(0);
+  });
+
+  it('passes when robots.txt has no Content-Signal', async () => {
+    const result = await contentSignalsRule.run(
+      createTestContext('<html></html>', { robotsTxtContent: 'User-agent: *\nDisallow:\n' })
+    );
+    expect(result.status).toBe('pass');
+  });
+
+  it('warns on a value that is not yes or no', async () => {
+    const result = await contentSignalsRule.run(
+      createTestContext('<html></html>', {
+        robotsTxtContent: 'Content-Signal: ai-train=maybe\n',
+      })
+    );
+    expect(result.status).toBe('warn');
+  });
+
+  it('warns when ai-train=yes contradicts a training-crawler block', async () => {
+    const result = await contentSignalsRule.run(
+      createTestContext('<html></html>', {
+        robotsTxtContent: 'User-agent: GPTBot\nDisallow: /\n\nContent-Signal: ai-train=yes\n',
+      })
+    );
+    expect(result.status).toBe('warn');
+    expect(result.message).toContain('ai-train=yes');
+  });
+
+  it('passes ai-train=no next to a training-crawler block', async () => {
+    const result = await contentSignalsRule.run(
+      createTestContext('<html></html>', {
+        robotsTxtContent: 'User-agent: GPTBot\nDisallow: /\n\nContent-Signal: ai-train=no\n',
+      })
+    );
+    expect(result.status).toBe('pass');
+  });
+});
+
+describe('noaiSignalsRule', () => {
+  it('passes when the page declares no opt-out', async () => {
+    const result = await noaiSignalsRule.run(createTestContext('<html><head></head></html>'));
+    expect(result.status).toBe('pass');
+    expect(result.details?.directives).toEqual([]);
+  });
+
+  it('reports noai without warning', async () => {
+    const html = '<html><head><meta name="robots" content="noai, noimageai"></head></html>';
+    const result = await noaiSignalsRule.run(createTestContext(html));
+    expect(result.status).toBe('pass');
+    expect(result.details?.directives).toEqual(expect.arrayContaining(['noai', 'noimageai']));
   });
 });

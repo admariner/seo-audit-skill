@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { nonHttpProtocolRule } from './non-http-protocol.js';
+import { nofollowInternalRule } from './nofollow-internal.js';
 import { inboundAllNofollowRule } from './inbound-all-nofollow.js';
 import { inboundMixedFollowRule } from './inbound-mixed-follow.js';
 import { inboundLowQualityRule } from './inbound-low-quality.js';
@@ -312,6 +313,31 @@ describe('inboundAnchorTextRule', () => {
   it('should pass when there are no followed inbound links (links-inbound-all-nofollow covers that)', async () => {
     const result = await inboundAnchorTextRule.run(
       inboundContext([{ from: SRC_A, nofollow: true, anchor: 'click here' }])
+    );
+    expect(result.status).toBe('pass');
+  });
+});
+
+describe('nofollowInternalRule', () => {
+  it('passes a followed internal link', async () => {
+    const result = await nofollowInternalRule.run(
+      createTestContext('<html><body><a href="/pricing">Pricing</a></body></html>')
+    );
+    expect(result.status).toBe('pass');
+  });
+
+  it('warns when an internal link is nofollow', async () => {
+    const result = await nofollowInternalRule.run(
+      createTestContext('<html><body><a href="/pricing" rel="nofollow">Pricing</a></body></html>')
+    );
+    expect(result.status).toBe('warn');
+  });
+
+  it('ignores nofollow on an external link', async () => {
+    const result = await nofollowInternalRule.run(
+      createTestContext(
+        '<html><body><a href="https://other.example/go" rel="nofollow">Out</a></body></html>'
+      )
     );
     expect(result.status).toBe('pass');
   });

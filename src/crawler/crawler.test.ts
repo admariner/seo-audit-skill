@@ -282,12 +282,12 @@ describe('buildSiteContext inbound edges', () => {
 
     const aboutEdges = site.inboundEdgesByUrl!.get(ABOUT)!;
     expect(aboutEdges).toHaveLength(2);
-    expect(aboutEdges[0]).toEqual({ from: HOME, nofollow: false, anchor: 'About us' });
-    expect(aboutEdges[1]).toEqual({ from: HOME, nofollow: false, anchor: 'Again' });
+    expect(aboutEdges[0]).toEqual({ from: HOME, nofollow: false, anchor: 'About us', chrome: false });
+    expect(aboutEdges[1]).toEqual({ from: HOME, nofollow: false, anchor: 'Again', chrome: false });
 
     const contactEdges = site.inboundEdgesByUrl!.get(CONTACT)!;
     expect(contactEdges).toHaveLength(1);
-    expect(contactEdges[0]).toEqual({ from: HOME, nofollow: true, anchor: 'Contact' });
+    expect(contactEdges[0]).toEqual({ from: HOME, nofollow: true, anchor: 'Contact', chrome: false });
   });
 
   it('records an empty anchor for image-only links', () => {

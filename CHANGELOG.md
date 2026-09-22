@@ -7,6 +7,76 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **8 rules** that finish the coverage expansion. The registry is now **373 rules**.
+  Category weights are unchanged, so each new rule dilutes its category average.
+  These eight are not in the published `@seomator/seo-audit@5.1.0` package.
+
+  - Content: a page far shorter than the median page of the same kind, and a
+    title that drops the suffix most of the site uses. Both need a crawl of
+    at least four pages.
+  - Crawl: a linked PDF whose `Content-Length` is over 10 MB. A missing length
+    is skipped, and a page with no PDF links passes.
+  - Schema: one organization or person name published under two absolute `@id`s.
+  - E-E-A-T: one organization name with more than one phone number or address.
+    Different names are treated as different places.
+  - GEO: a Markdown representation of each URL other than `/`, and an HTTP 402
+    that names payment terms. The root URL stays on `geo-markdown-response`.
+  - Accessibility: an explicit ARIA widget role missing its required parent or
+    child. A normal list is left to `a11y-list-structure`.
+
+  **Scores move** on sites that fail the new checks, and slightly on sites that
+  pass them, because content (25 → 27 rules), crawl (37 → 38), schema
+  (18 → 19), eeat (15 → 16), geo (11 → 13), and accessibility (35 → 36) now
+  average in more results. On the pinned fixture the overall score stays 91.
+
+## [5.1.0] - 2026-09-22
+
+### Added
+
+- **12 rules from the coverage-expansion plan.**
+  The registry is now **344 rules** across the same 20 categories. Category
+  weights are unchanged, so each new rule dilutes its category average.
+
+  - Content: mojibake, unrendered Markdown, template leftovers, a stale footer
+    copyright year, published-date disagreement, and long text hidden with an
+    inline style.
+  - Links: `rel=nofollow` on a same-host link.
+  - Schema: identity entities without an absolute `@id`, and `AggregateRating`
+    on a legal or account URL or with a `ratingValue` the reader cannot see.
+  - GEO: `Content-Signal` syntax and contradictions in robots.txt (unmeasured
+    when robots.txt was not fetched), and a report-only `noai` / `noimageai` check.
+  - Security: cross-origin scripts and stylesheets with no `integrity` hash.
+
+  **Scores move** on pages that fail the new checks, and slightly on pages
+  that pass them, because content (19 → 25 rules), links (24 → 25), schema
+  (13 → 15), geo (5 → 7), and security (23 → 24) now average in more results.
+
+- **21 more rules** from the same plan. The registry is now **365 rules**.
+  Category weights are still unchanged.
+
+  - Crawl: canonicals that mix www, scheme, or trailing slash; sitemap
+    `lastmod` versus schema `dateModified`.
+  - Links: a non-entry page with one dofollow inbound link, and pages whose
+    inbound links are all in the nav, header, or footer.
+  - Schema: the same absolute `@id` with two logos or phone numbers, a
+    referenced `@id` that no page declares, and one `@id` with two `@type`s.
+    The crawler keeps a short JSON-LD summary on each crawled page for these.
+  - Performance: the same library loaded twice, and a published source map.
+  - Technical: a Google tag with no consent update.
+  - Accessibility: unnamed buttons, email and telephone autocomplete,
+    `lang` versus `xml:lang`, and `aria-hidden` on the document.
+  - E-E-A-T: geo meta tags when the page already publishes local-business schema.
+  - Security: a long obfuscated inline script, and a brand sign-in link that
+    points at neither the brand nor this host.
+  - GEO, probed once per origin: `AGENTS.md`, a `.well-known` agent manifest,
+    a robots.txt `License:` target, and a Markdown representation of `/`.
+
+  On the pinned fixture the overall score moves from 90 to 91. Perf and
+  security rise because the new checks pass there. GEO gains warnings for
+  the origin probes that 404.
+
 ## [5.0.0] - 2026-09-05
 
 The score means more than it did. Two contract changes, both about a tool being

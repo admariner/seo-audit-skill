@@ -1,10 +1,10 @@
 # SEO Audit Rules Reference
 
-> Complete reference of all 331 SEO audit rules across 20 categories (v3.3.0)
+> Complete reference of all 373 SEO audit rules across 20 categories (v5.1.0)
 
 ## Overview
 
-SEOmator audits websites using 332 rules organized into 20 categories. Each rule returns one of three statuses:
+SEOmator audits websites using 373 rules organized into 20 categories. Each rule returns one of three statuses:
 - **Pass** (score: 100) - Meets best practices
 - **Warn** (score: 50) - Potential issue, should address
 - **Fail** (score: 0) - Critical issue, must fix
@@ -16,27 +16,27 @@ SEOmator audits websites using 332 rules organized into 20 categories. Each rule
 | Category | Weight | Rules | Description |
 |----------|--------|-------|-------------|
 | [Core SEO]((#core-seo)) | 11% | 24 | Meta tags, canonical, H1, indexing directives |
-| [Performance]((#performance)) | 10% | 26 | Core Web Vitals + performance optimization hints |
-| [Links]((#links)) | 8% | 24 | Internal/external links, anchor text, validation |
+| [Performance]((#performance)) | 10% | 28 | Core Web Vitals + performance optimization hints |
+| [Links]((#links)) | 8% | 27 | Internal/external links, anchor text, validation |
 | [Images]((#images)) | 8% | 14 | Alt text, dimensions, lazy loading, optimization |
-| [Security]((#security)) | 8% | 23 | HTTPS, security headers, mixed content, SSL, cookie flags |
-| [Technical SEO]((#technical-seo)) | 7% | 17 | Robots.txt, sitemap, status codes, URL structure |
-| [Crawlability]((#crawlability)) | 5% | 34 | Indexability signals, sitemap conflicts, pagination, sitemap lastmod |
-| [Structured Data]((#structured-data)) | 5% | 13 | JSON-LD, Schema.org markup |
-| [Content]((#content)) | 5% | 19 | Text quality, readability, headings, duplicates |
+| [Security]((#security)) | 8% | 26 | HTTPS, security headers, mixed content, SSL, cookie flags |
+| [Technical SEO]((#technical-seo)) | 7% | 18 | Robots.txt, sitemap, status codes, URL structure |
+| [Crawlability]((#crawlability)) | 5% | 38 | Indexability signals, sitemap conflicts, pagination, sitemap lastmod |
+| [Structured Data]((#structured-data)) | 5% | 19 | JSON-LD, Schema.org markup |
+| [Content]((#content)) | 5% | 27 | Text quality, readability, headings, duplicates |
 | [JavaScript Rendering]((#javascript-rendering)) | 5% | 16 | SSR validation, JS-dependent SEO elements, console errors |
-| [Accessibility]((#accessibility)) | 7% | 31 | WCAG compliance, ARIA, keyboard navigation |
+| [Accessibility]((#accessibility)) | 7% | 36 | WCAG compliance, ARIA, keyboard navigation |
 | [Social]((#social)) | 3% | 9 | Open Graph, Twitter Cards, social profiles |
-| [E-E-A-T]((#e-e-a-t)) | 3% | 14 | Experience, Expertise, Authority, Trust signals |
+| [E-E-A-T]((#e-e-a-t)) | 3% | 16 | Experience, Expertise, Authority, Trust signals |
 | [URL Structure]((#url-structure)) | 3% | 14 | Slug keywords, formatting, parameters |
 | [Redirects]((#redirects)) | 3% | 11 | Redirect types, chains, loops |
 | [Mobile]((#mobile)) | 2% | 12 | Font size, viewport, responsive layout |
 | [Internationalization]((#internationalization)) | 2% | 13 | Language declarations, hreflang validation |
 | [HTML Validation]((#html-validation)) | 2% | 11 | DOCTYPE, charset, head structure |
-| [AI/GEO Readiness]((#aigeo-readiness)) | 2% | 5 | Semantic HTML, AI bot access, llms.txt |
+| [AI/GEO Readiness]((#aigeo-readiness)) | 2% | 13 | Semantic HTML, AI bot access, llms.txt |
 | [Legal Compliance]((#legal-compliance)) | 1% | 1 | Cookie consent |
 
-**Total: 100% weight, 332 rules**
+**Total: 100% weight, 373 rules**
 
 ---
 
@@ -193,6 +193,8 @@ Core Web Vitals measurements and static performance optimization hints.
 | `perf-js-file-size` | JS File Size | warn/fail | Checks individual JavaScript file sizes |
 | `perf-video-for-animations` | Video for Animations | warn | Suggests `<video>` over animated GIFs |
 | `perf-legacy-javascript` | Legacy JavaScript | warn | Detects polyfills and transpiler runtimes modern browsers do not need |
+| `perf-duplicate-js` | Duplicate Libraries | warn | A known library is not loaded from more than one script URL |
+| `perf-source-maps` | Exposed Source Maps | warn | No sourceMappingURL comment or SourceMap header |
 
 ### Core Web Vitals Thresholds
 
@@ -300,6 +302,9 @@ Analyzes internal and external links, anchor text, broken links, and link qualit
 | `links-inbound-mixed-follow` | Mixed Follow/Nofollow Inbound | warn | Page receives both followed and nofollowed internal links, suggesting inconsistent nofollow usage (requires --crawl) |
 | `links-inbound-low-quality` | Inbound Links Passing No Link Equity | warn | Every inbound internal link is nofollow or comes from a page canonicalized elsewhere (requires --crawl) |
 | `links-inbound-anchor-text` | Descriptive Inbound Anchor Text | warn | All followed inbound internal links use generic anchor text like "click here" (requires --crawl) |
+| `links-nofollow-internal` | Nofollow On Internal Links | warn | Same-host links must not carry rel=nofollow |
+| `links-weak-inbound` | Single Inbound Link | warn | A non-entry page has more than one dofollow inbound link (requires --crawl) |
+| `links-chrome-inbound` | Chrome-Only Inbound Links | warn | At least one inbound link sits outside nav, header, and footer (requires --crawl) |
 
 ### Rule Details
 
@@ -442,6 +447,9 @@ Validates HTTPS, security headers, mixed content, SSL, and leaked secrets.
 | `security-cookie-lifetime` | Cookie Lifetime | warn | Flags cookies beyond the 400-day browser cap |
 | `security-ssl-expiry` | SSL Expiry | warn/fail | Checks SSL certificate is not near expiration |
 | `security-ssl-protocol` | SSL Protocol | warn/fail | Checks TLS version (1.2+ required) |
+| `security-sri` | Subresource Integrity | warn | Cross-origin scripts and stylesheets have an integrity hash |
+| `security-obfuscated-script` | Obfuscated Script | warn | No long high-entropy inline script calls eval, Function, or atob |
+| `security-brand-impersonation` | Brand Sign-In Destination | warn | Brand sign-in links point at the brand or this host |
 
 ### Rule Details
 
@@ -534,6 +542,7 @@ Validates robots.txt, sitemap, SSL, status codes, and URL structure.
 | `technical-form-get-method` | Form GET Method | warn | Detects forms that submit with the GET method, exposing query-string URLs |
 | `technical-duplicate-gtm` | Multiple GTM Containers | warn | Detects more than one distinct Google Tag Manager container on the page |
 | `technical-duplicate-ga` | Multiple GA Properties | warn | Detects more than one distinct Google Analytics property ID (UA- or G-) on the page |
+| `technical-consent-mode` | Google Consent Mode | warn | A Google tag is paired with a consent update |
 
 ### Rule Details
 
@@ -621,6 +630,9 @@ The cross-page rules (`crawl-sitemap-non-200`, `crawl-sitemap-non-canonical`, `c
 | `crawl-hreflang-incoming-conflict` | Conflicting Incoming Hreflang | fail | Other crawled pages annotate this URL with different hreflang codes (crawl mode) |
 | `crawl-hreflang-reciprocity` | Hreflang Reciprocity | warn | Crawled hreflang targets do not annotate this page in return (crawl mode) |
 | `crawl-isolated-url` | Isolated URL | fail | URL reachable only via canonicals, redirects, the sitemap, noindex,follow paths, or other isolated URLs (crawl mode) |
+| `crawl-canonical-form-drift` | Canonical Form Drift | warn | Canonicals agree on www, scheme, and trailing slash (crawl mode) |
+| `crawl-sitemap-date-drift` | Sitemap Date Drift | warn | Sitemap lastmod and schema dateModified fall on the same day |
+| `crawl-pdf-size` | Linked PDF Size | warn | Linked PDF files are at most 10 MB; a missing Content-Length is skipped |
 
 ### Rule Details
 
@@ -719,6 +731,9 @@ The cross-page rules (`crawl-sitemap-non-200`, `crawl-sitemap-non-canonical`, `c
 - **What it checks:** How the crawl discovered this URL (internal link, canonical tag, redirect, XML sitemap, or the crawl entry point). Fails when no anchor link points to it (found only via a canonical, a redirect or the sitemap), when every linking page is noindex,follow, or when every linker is itself isolated (one propagation pass). The crawl entry point always passes. Crawl mode only
 - **Fix:** Link to the page from ordinary anchors on relevant, indexable pages; do not rely on canonicals, redirects or the sitemap for discovery
 
+#### crawl-pdf-size
+- **Warn:** A linked `.pdf` reports `Content-Length` above 10 MB. Up to eight PDF links are checked with HEAD. A missing length is skipped. A page with no PDF links passes.
+
 ---
 
 ## Structured Data
@@ -740,6 +755,12 @@ Checks for valid JSON-LD, Schema.org markup, and rich snippet eligibility.
 | `schema-review` | Review Schema | warn | Validates Review/AggregateRating |
 | `schema-video` | Video Schema | warn | Validates VideoObject |
 | `schema-website-search` | WebSite Search | info | Checks sitelinks searchbox eligibility |
+| `schema-entity-id` | Schema Entity @id | warn | Organization, WebSite, Person, and Business entities use an absolute @id |
+| `schema-rating-scope` | AggregateRating Scope | warn | AggregateRating is not on a legal or account URL, and ratingValue is visible |
+| `schema-entity-conflict` | Entity Conflicts | warn | One absolute @id does not carry two logos or two phone numbers |
+| `schema-entity-dangling` | Dangling @id | warn | publisher, author, and isPartOf @ids are declared in the crawl |
+| `schema-entity-type-drift` | Type Drift | warn | One absolute @id keeps the same @type across the crawl |
+| `schema-entity-split` | Split Schema Identity | warn | One organization or person name is not published under two absolute @ids |
 
 ### Rule Details
 
@@ -779,6 +800,9 @@ Checks for valid JSON-LD, Schema.org markup, and rich snippet eligibility.
 #### schema-website-search
 - **Fix:** Add WebSite schema with SearchAction and target containing `{search_term_string}`.
 
+#### schema-entity-split
+- **Warn:** The same organization or person name is published under two or more absolute `@id`s. Needs a crawl of at least two pages. Relative `@id`s are ignored.
+
 ---
 
 ## Content
@@ -806,6 +830,14 @@ Analyzes text quality, readability, headings, and duplicate content.
 | `content-duplicate-near` | Near Duplicate | warn | Detects pages with very similar content (crawl mode) |
 | `content-title-same-as-description` | Title Same as Description | warn | Detects identical title tag and meta description text |
 | `content-duplicate-h1` | Duplicate H1 Across Pages | warn | Detects pages whose H1 text is identical to another crawled page (crawl mode) |
+| `content-mojibake` | Mojibake | fail | Visible text contains UTF-8 decoded as Latin-1 or Windows-1252 |
+| `content-unrendered-markup` | Unrendered Markup | warn | Literal Markdown such as **bold** outside code and pre |
+| `content-placeholder-text` | Placeholder Text | warn/fail | Unrendered template syntax or TODO/FIXME notes in visible text |
+| `content-stale-copyright` | Stale Copyright | warn | Footer copyright year is behind the current year |
+| `content-date-agreement` | Date Agreement | warn | datePublished, time datetime, and a year in the URL disagree |
+| `content-hidden-text` | Hidden Text | warn | Long text hidden with an inline style, excluding nav, dialogs, and sr-only |
+| `content-thin-vs-site` | Thin Versus Site Norm | warn | A page is not far shorter than the median page of the same kind (crawl mode) |
+| `content-title-pattern` | Title Template | warn | The title keeps the suffix most of the site uses (crawl mode) |
 
 ### Rule Details
 
@@ -861,6 +893,33 @@ Analyzes text quality, readability, headings, and duplicate content.
 #### content-duplicate-h1
 - **What it checks:** This page's H1 is the exact same text as the H1 of at least one other crawled page — identical H1s suggest templated or duplicated content. Crawl mode only; a missing or empty H1 reports unmeasured (the heading rules cover that case)
 - **Fix:** Give each page a distinct H1 that describes its specific content
+
+#### content-mojibake
+- **Fail:** Visible text contains a UTF-8 sequence decoded as Latin-1 or Windows-1252, such as a curly apostrophe shown as `â€™`.
+- **Fix:** Re-save the source as UTF-8 and serve `charset=utf-8`.
+
+#### content-unrendered-markup
+- **Warn:** Literal Markdown (`**bold**`, `[label](url)`) outside `code` and `pre`.
+- **Fix:** Render the field to HTML before publishing.
+
+#### content-placeholder-text
+- **Fail:** `{{ }}`, `{% %}`, `<% %>`, or `[object Object]` in visible text. **Warn:** `TODO:` or `FIXME:`.
+- **Fix:** Render the template and remove author notes. Lorem ipsum stays on `htmlval-lorem-ipsum`.
+
+#### content-stale-copyright
+- **Warn:** A copyright year in `footer` or `role=contentinfo` is behind the current year. A range uses its end year. No footer copyright passes.
+
+#### content-date-agreement
+- **Warn:** `datePublished`, a `<time datetime>`, and a `/20xx/` path disagree on the year. `dateModified` is not compared. One source passes.
+
+#### content-hidden-text
+- **Warn:** 80 or more characters hidden by an inline style (`display:none`, `visibility:hidden`, `font-size:0`, a large negative `text-indent`, `opacity:0`). Navigation, dialogs, and `sr-only` classes are ignored. Stylesheet-only hiding is not visible to this rule.
+
+#### content-thin-vs-site
+- **Warn:** The page has fewer than half the median words of other pages of the same kind (article, product, or other). Needs at least four pages of that kind. A single-page audit is not measured.
+
+#### content-title-pattern
+- **Warn:** The title does not end with the suffix used on at least 60% of crawled titles. A title that is exactly the brand passes. Needs at least four pages.
 
 ---
 
@@ -940,6 +999,11 @@ Checks for WCAG compliance, screen reader support, and keyboard navigation.
 | `a11y-iframe-title` | Frame Titles | fail | `<iframe>` and `<frame>` elements have a title |
 | `a11y-input-image-alt` | Image Button Alt Text | fail | `<input type="image">` elements have alt text |
 | `a11y-label-name-mismatch` | Accessible Name Matches Visible Label | warn | aria-label contains the element visible text |
+| `a11y-button-name` | Button Name | warn | Buttons and role=button controls have an accessible name |
+| `a11y-autocomplete` | Autocomplete Tokens | warn | Email and tel inputs set the matching autocomplete token |
+| `a11y-xml-lang-mismatch` | lang and xml:lang | warn | lang and xml:lang on html name the same language |
+| `a11y-aria-hidden-body` | aria-hidden on Document | fail | html and body are not aria-hidden |
+| `a11y-aria-required` | Required ARIA Structure | warn | Explicit ARIA widget roles have their required parent and child roles |
 | `a11y-list-structure` | List Structure | fail | Lists contain only list items; items sit inside a list |
 | `a11y-main-landmark` | Main Landmark | warn/fail | Page has exactly one `<main>` or role="main" |
 | `a11y-object-alt` | Object Alternative Text | fail | `<object>` elements provide a text alternative |
@@ -1051,6 +1115,9 @@ Checks for WCAG compliance, screen reader support, and keyboard navigation.
 #### a11y-valid-lang-element
 - **Fix:** Use a BCP 47 tag (`en`, `pt-BR`) so screen readers switch pronunciation correctly.
 
+#### a11y-aria-required
+- **Warn:** An element with an explicit `role` is missing its required parent (`tab` inside `tablist`, `option` inside `listbox`, and the same for menu, list, and tree) or a widget role has none of its required children. A normal `ul`/`li` is not flagged.
+
 ---
 
 ## Social
@@ -1111,6 +1178,8 @@ Experience, Expertise, Authority, and Trust signals for content quality.
 | `eeat-terms-of-service` | Terms of Service | warn | Checks for ToS link |
 | `eeat-trust-signals` | Trust Signals | warn | Checks for reviews, certifications, badges |
 | `eeat-ymyl-detection` | YMYL Detection | info | Detects Your Money or Your Life content |
+| `eeat-geo-meta` | Geo Meta Tags | warn | A page with local-business schema also sets a geo meta tag |
+| `eeat-nap-consistency` | NAP Consistency | warn | One organization name keeps a single phone number and address across the crawl |
 
 ### Rule Details
 
@@ -1149,6 +1218,9 @@ Experience, Expertise, Authority, and Trust signals for content quality.
 
 #### eeat-ymyl-detection
 - **Info:** Detects YMYL (Your Money or Your Life) content that requires higher E-E-A-T standards.
+
+#### eeat-nap-consistency
+- **Warn:** One organization name publishes more than one phone number or postal address in the crawl. Different names are treated as different places. Needs a crawl.
 
 ---
 
@@ -1459,6 +1531,14 @@ Checks for Generative Engine Optimization: semantic HTML, content structure, and
 | `geo-ai-bot-access` | AI Bot Access | warn | Checks AI crawlers are not blocked |
 | `geo-llms-txt` | llms.txt | info | Checks for llms.txt file for AI guidance |
 | `geo-schema-drift` | Schema Drift | warn | Checks schema markup matches actual content |
+| `geo-content-signals` | Content-Signal | warn | robots.txt Content-Signal syntax and contradictions with training-crawler blocks |
+| `geo-noai-signals` | AI Opt-Out | pass | Reports noai and noimageai without scoring them down |
+| `geo-agents-md` | AGENTS.md | warn | An AGENTS.md file exists and is not an HTML fallback |
+| `geo-well-known` | Agent Manifest | warn | An MCP or agent-card file exists under .well-known |
+| `geo-rsl-license` | License Target | warn | A robots.txt License URL resolves to a license document |
+| `geo-markdown-response` | Markdown Response | warn | The origin serves Markdown for / |
+| `geo-markdown-page` | Markdown For This URL | warn | A non-root URL has a Markdown representation |
+| `geo-pay-per-crawl` | Pay-Per-Crawl Response | warn | An HTTP 402 response includes payment terms |
 
 ### Rule Details
 
@@ -1476,6 +1556,19 @@ Checks for Generative Engine Optimization: semantic HTML, content structure, and
 
 #### geo-schema-drift
 - **Fix:** Ensure structured data (schema.org) accurately reflects the visible page content. Don't include schema for content that doesn't exist on the page.
+
+#### geo-content-signals
+- **Pass:** No `Content-Signal` line, or a valid one that does not contradict robots.txt. **Warn:** A bad key or value, or `ai-train=yes` while GPTBot, CCBot, Google-Extended, ClaudeBot, or Bytespider is `Disallow: /`.
+- **Not measured:** `robotsTxtContent` was not fetched.
+
+#### geo-noai-signals
+- **Pass either way.** Lists `noai` and `noimageai` from robots meta tags and `X-Robots-Tag`. Declaring them is not a penalty.
+
+#### geo-markdown-page
+- **Warn:** A URL other than `/` has neither an `Accept: text/markdown` response nor a sibling `.md` document. `/` is covered by `geo-markdown-response`.
+
+#### geo-pay-per-crawl
+- **Warn:** The response status is 402 and none of `Pay`, `Crawler-Price`, `X-Crawler-Price`, or a `Link` header containing `payment` is set. Any other status passes.
 
 ---
 

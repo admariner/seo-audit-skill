@@ -5,6 +5,7 @@ import { cspXssRule } from './csp-xss.js';
 import { infoDisclosureRule } from './info-disclosure.js';
 import { pasteBlockingRule } from './paste-blocking.js';
 import { trustedTypesRule } from './trusted-types.js';
+import { sriRule } from './sri.js';
 
 const HTML = '<html><body><p>Fixture</p></body></html>';
 const withHeaders = (headers: Record<string, string>) => createTestContext(HTML, { headers });
@@ -141,6 +142,29 @@ describe('security-trusted-types', () => {
         'content-security-policy': "script-src 'self'; require-trusted-types-for 'script'",
       })
     );
+    expect(result.status).toBe('pass');
+  });
+});
+
+describe('security-sri', () => {
+  it('passes when every script is same-origin', async () => {
+    const result = await sriRule.run(
+      createTestContext('<html><body><script src="/app.js"></script></body></html>')
+    );
+    expect(result.status).toBe('pass');
+  });
+
+  it('warns on a cross-origin script with no integrity hash', async () => {
+    const result = await sriRule.run(
+      createTestContext('<html><body><script src="https://cdn.example/app.js"></script></body></html>')
+    );
+    expect(result.status).toBe('warn');
+  });
+
+  it('passes when the cross-origin script has an integrity hash', async () => {
+    const html =
+      '<html><body><script src="https://cdn.example/app.js" integrity="sha384-abc"></script></body></html>';
+    const result = await sriRule.run(createTestContext(html));
     expect(result.status).toBe('pass');
   });
 });

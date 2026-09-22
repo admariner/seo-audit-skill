@@ -53,6 +53,9 @@ import { hreflangDisallowedTargetRule } from './hreflang-disallowed-target.js';
 import { hreflangIncomingConflictRule } from './hreflang-incoming-conflict.js';
 import { hreflangReciprocityRule } from './hreflang-reciprocity.js';
 import { crawlIsolatedUrlRule } from './isolated-url.js';
+import { canonicalFormDriftRule } from './canonical-form-drift.js';
+import { sitemapDateDriftRule } from './sitemap-date-drift.js';
+import { pdfSizeRule } from './pdf-size.js';
 
 // Export all rules
 export {
@@ -99,6 +102,9 @@ export {
   hreflangIncomingConflictRule,
   hreflangReciprocityRule,
   crawlIsolatedUrlRule,
+  canonicalFormDriftRule,
+  sitemapDateDriftRule,
+  pdfSizeRule,
 };
 
 // Export orphan registry utilities for testing and cross-page analysis
@@ -151,3 +157,6 @@ registerRule(hreflangDisallowedTargetRule);
 registerRule(hreflangIncomingConflictRule);
 registerRule(hreflangReciprocityRule);
 registerRule(crawlIsolatedUrlRule);
+registerRule(canonicalFormDriftRule);
+registerRule(sitemapDateDriftRule);
+registerRule(pdfSizeRule);

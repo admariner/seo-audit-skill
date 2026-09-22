@@ -56,6 +56,8 @@ import { jsFileSizeRule } from './js-file-size.js';
 import { legacyJavascriptRule } from './legacy-javascript.js';
 import { videoForAnimationsRule } from './video-for-animations.js';
 import { imageEncodingRule } from './image-encoding.js';
+import { duplicateJsRule } from './duplicate-js.js';
+import { sourceMapsRule } from './source-maps.js';
 
 // Export all rules
 export {
@@ -93,6 +95,8 @@ export {
   videoForAnimationsRule,
   legacyJavascriptRule,
   imageEncodingRule,
+  duplicateJsRule,
+  sourceMapsRule,
 };
 
 // Register all rules
@@ -122,3 +126,5 @@ registerRule(jsFileSizeRule);
 registerRule(videoForAnimationsRule);
 registerRule(legacyJavascriptRule);
 registerRule(imageEncodingRule);
+registerRule(duplicateJsRule);
+registerRule(sourceMapsRule);

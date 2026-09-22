@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-SEOmator is a comprehensive SEO audit tool (`@seomator/seo-audit`) with 332 rules across 20 categories. It ships as both a **CLI tool** (published to npm) and an **Electron desktop app** (local only). It fetches web pages, parses HTML with Cheerio, optionally measures Core Web Vitals via Playwright, and scores pages against SEO best practices.
+SEOmator is a comprehensive SEO audit tool (`@seomator/seo-audit`) with 373 rules across 20 categories. It ships as both a **CLI tool** (published to npm) and an **Electron desktop app** (local only). It fetches web pages, parses HTML with Cheerio, optionally measures Core Web Vitals via Playwright, and scores pages against SEO best practices.
 
 ## Critical Rules (read before making changes)
 
@@ -36,7 +36,7 @@ The `package.json` serves **both** the npm CLI package and the Electron desktop 
 5. `npm publish --access public`
 6. The `prepublishOnly` script auto-runs `npm run build` before publish
 
-Published as `@seomator/seo-audit` on npm. Current version: **5.0.0**.
+Published as `@seomator/seo-audit` on npm. Current version: **5.1.0**.
 
 ### better-sqlite3 Native Module ABI
 
@@ -187,7 +187,7 @@ core(11%), perf(10%), links(8%), images(8%), security(8%), a11y(7%), technical(7
 
 ### Key Directories
 
-- `src/rules/` - 332 audit rules in 20 category subdirectories
+- `src/rules/` - 373 audit rules in 20 category subdirectories
 - `src/categories/` - Category definitions with weights
 - `src/commands/` - CLI command handlers (audit, crawl, init, config, db, etc.)
 - `src/crawler/` - HTTP fetcher, queue-based crawler, URL normalization

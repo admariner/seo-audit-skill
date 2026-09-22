@@ -69,6 +69,11 @@ export interface LinkInfo {
   isInternal: boolean;
   /** Whether the link has nofollow rel attribute */
   isNoFollow: boolean;
+  /**
+   * Whether the anchor sits in site chrome (nav, header, footer) rather than
+   * body copy. Absent on links built before this field existed.
+   */
+  inChrome?: boolean;
   /** HTTP status code if checked */
   statusCode?: number;
 }
@@ -355,6 +360,11 @@ export interface InboundEdge {
   nofollow: boolean;
   /** The link's anchor text, trimmed; empty when the link has no text */
   anchor: string;
+  /**
+   * True when the link was inside nav, header, or footer.
+   * Absent when the crawl did not record placement.
+   */
+  chrome?: boolean;
 }
 
 export interface SiteContext {
@@ -425,6 +435,38 @@ export interface SitePageInfo {
   hreflangOut: Record<string, string>;
   /** Text of the first `<h1>`, trimmed; undefined when absent or empty */
   h1?: string;
+  /** Document title, trimmed; undefined when absent or empty */
+  title?: string;
+  /** Visible word count, excluding nav, footer, and scripts */
+  wordCount?: number;
+  /** Coarse page kind used to compare a page with others of the same kind */
+  pageKind?: 'article' | 'product' | 'other';
+  /**
+   * Compact JSON-LD nodes from this page, for crawl-wide identity checks.
+   * Omitted when the page has no parseable typed nodes.
+   */
+  schemaNodes?: SchemaNodeSummary[];
+}
+
+/**
+ * One typed JSON-LD node, reduced to the fields crawl-wide identity rules
+ * compare. The page HTML is not retained.
+ */
+export interface SchemaNodeSummary {
+  /** Raw @id when the node declared one */
+  id?: string;
+  /** @type values, one entry per type on the node */
+  types: string[];
+  /** name, when it is a string */
+  name?: string;
+  /** logo URL, when it is a string or an ImageObject url / @id */
+  logo?: string;
+  /** telephone, when it is a string */
+  telephone?: string;
+  /** Postal address flattened to one line, when the node declares one */
+  address?: string;
+  /** Absolute or raw @ids this node points at (publisher, author, isPartOf, ...) */
+  refs: string[];
 }
 
 /**

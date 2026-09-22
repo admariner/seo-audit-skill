@@ -59,8 +59,10 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'perf-asset-compression': 'Serve text assets over 2KB (CSS, JS, JSON, SVG) with gzip or Brotli compression',
   'perf-image-encoding': 'Replace BMP/TIFF images with WebP or AVIF; compress images transferred at over 100KB',
   'perf-legacy-javascript': 'Drop legacy polyfills and ES5 transpiler runtimes modern browsers do not need; ship modern syntax',
+  'perf-duplicate-js': 'Load each library from one script URL and one version',
+  'perf-source-maps': 'Remove sourceMappingURL comments and the SourceMap header from production responses',
 
-  // ============ Links (24 rules) ============
+  // ============ Links (25 rules) ============
   'links-broken-internal': 'Fix or remove broken internal links (404 errors)',
   'links-external-valid': 'Remove or update broken external links',
   'links-internal-present': 'Add internal links to relevant pages for better navigation',
@@ -85,6 +87,9 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'links-inbound-low-quality': 'Earn followed links from indexable, self-canonical pages so this URL receives internal link equity',
   'links-inbound-mixed-follow': 'Decide whether internal links to this page should be nofollowed and apply it consistently',
   'links-non-http-protocol': 'Replace non-HTTP links (ftp:, file:, intent:) with HTTP(S) URLs unless the protocol is intentional',
+  'links-nofollow-internal': 'Remove rel=nofollow from links to your own pages so crawlers can follow the internal graph',
+  'links-weak-inbound': 'Add a second followed internal link to this page from a relevant URL',
+  'links-chrome-inbound': 'Link to this page from body copy, not only from the nav, header, or footer',
 
   // ============ Images (14 rules) ============
   'images-alt-present': 'Add descriptive alt text to all images for accessibility and SEO',
@@ -102,7 +107,7 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'images-alt-length': 'Keep alt text between 5-125 characters; be descriptive but concise',
   'images-background-seo': 'Use <img> tags instead of CSS background-image for meaningful content images so search engines can index them',
 
-  // ============ Security (23 rules) ============
+  // ============ Security (24 rules) ============
   'security-https': 'Install SSL certificate and redirect all HTTP traffic to HTTPS',
   'security-https-redirect': 'Ensure HTTP to HTTPS redirect is in place',
   'security-hsts': 'Add Strict-Transport-Security header with max-age of at least 1 year',
@@ -126,6 +131,9 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'security-info-disclosure': 'Suppress or genericise headers that reveal software versions (Server, X-Powered-By, X-Generator)',
   'security-paste-blocking': 'Remove onpaste handlers that cancel pasting; blocking paste breaks password managers',
   'security-trusted-types': "Add require-trusted-types-for 'script' to the Content-Security-Policy to block DOM XSS sinks",
+  'security-sri': 'Add an integrity hash and crossorigin="anonymous" to cross-origin scripts and stylesheets',
+  'security-obfuscated-script': 'Remove long inline scripts that call eval, Function, or atob and that you do not recognise',
+  'security-brand-impersonation': 'Point Sign in with Google, Microsoft, or Apple at that brand or at a URL on your own host',
 
   // ============ Technical SEO (17 rules) ============
   'technical-robots-txt-exists': 'Create robots.txt at site root with User-agent and sitemap directives',
@@ -142,6 +150,7 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'technical-timeout': 'Reduce page response time; optimize server, enable caching, or increase timeout thresholds',
   'technical-bad-content-type': 'Set correct Content-Type header matching actual content (text/html for pages, application/json for APIs)',
   'technical-duplicate-ga': 'Verify all Google Analytics properties are intentional; remove duplicate or legacy tracking codes',
+  'technical-consent-mode': 'Call gtag consent default with ad_storage, ad_user_data, and ad_personalization before the Google tag',
   'technical-duplicate-gtm': 'Verify all GTM containers are intentional; consolidate into a single container where possible',
   'technical-empty-html': 'Investigate why the server returns no HTML content; restore it or serve a 404/410 if it should not exist',
   'technical-form-get-method': 'Switch forms to method="post", or block GET form action URLs via robots.txt if they are intentional',
@@ -176,6 +185,9 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'crawl-hreflang-to-disallowed': 'Remove the robots.txt disallow for the hreflang targets, or drop the annotations pointing at them',
   'crawl-hreflang-to-noindex': 'Remove noindex from hreflang targets, or drop the annotations pointing at them',
   'crawl-isolated-url': 'Link to this page from ordinary anchors on relevant, indexable pages; do not rely on canonicals or the sitemap',
+  'crawl-canonical-form-drift': 'Use one canonical host, scheme, and trailing-slash form on every page',
+  'crawl-sitemap-date-drift': 'Make sitemap lastmod and schema dateModified the same day',
+  'crawl-pdf-size': 'Compress linked PDFs or split them so each file stays under 10 MB',
   'crawl-pagination-isolated': 'Link to paginated pages from ordinary anchors (e.g. a pager in the body), not only rel="next"/"prev" tags',
   'crawl-sitemap-cross-duplicates': 'Assign each URL to a single sitemap so coverage reporting stays meaningful',
   'crawl-sitemap-disallowed': 'Remove disallowed URLs from the sitemap or allow them in robots.txt, whichever reflects intent',
@@ -183,7 +195,7 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'crawl-sitemap-non-200': 'Remove erroring URLs from the sitemap or fix their responses; list final destination URLs, not redirects',
   'crawl-sitemap-non-canonical': 'List canonical target URLs in the sitemap instead of URLs that canonicalize away',
 
-  // ============ Structured Data (13 rules) ============
+  // ============ Structured Data (15 rules) ============
   'schema-present': 'Add JSON-LD structured data for rich search results',
   'schema-valid': 'Fix JSON-LD syntax errors using Google Rich Results Test',
   'schema-type': 'Use appropriate schema type (Article, Product, LocalBusiness, etc.)',
@@ -197,8 +209,14 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'schema-review': 'Add Review schema with itemReviewed, author, reviewRating; or AggregateRating with ratingValue, reviewCount',
   'schema-video': 'Add VideoObject schema with name, thumbnailUrl, uploadDate, and description',
   'schema-website-search': 'Add WebSite schema with potentialAction SearchAction for sitelinks searchbox',
+  'schema-entity-id': 'Give Organization, WebSite, and Person one absolute @id and reuse that URL on every page',
+  'schema-rating-scope': 'Keep AggregateRating on the page it describes and show the same ratingValue in the visible text',
+  'schema-entity-conflict': 'Give each absolute @id one logo and one telephone, and repeat those values on every page',
+  'schema-entity-dangling': 'Declare every publisher, author, and isPartOf @id on at least one crawled page',
+  'schema-entity-type-drift': 'Keep the same @type for an @id on every page that declares that identifier',
+  'schema-entity-split': 'Reuse one absolute @id for an organization or person name instead of minting a second one',
 
-  // ============ Content (19 rules) ============
+  // ============ Content (25 rules) ============
   'content-word-count': 'Expand thin content to at least 300 words for informational pages',
   'content-reading-level': 'Simplify text for broader audience; aim for 8th grade reading level',
   'content-keyword-stuffing': 'Write naturally; avoid repeating keywords excessively',
@@ -218,6 +236,14 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'content-duplicate-near': 'Differentiate pages with near-duplicate content; add unique value or consolidate with canonical tags',
   'content-duplicate-h1': 'Give each page a unique H1 that reflects its specific topic',
   'content-title-same-as-description': 'Write a distinct meta description that expands on the title and encourages clicks',
+  'content-mojibake': 'Re-save the page as UTF-8 and serve charset=utf-8 so curly quotes and accented letters are not shown corrupted',
+  'content-unrendered-markup': 'Render Markdown to HTML before publishing so visitors do not see literal **bold** or [label](url)',
+  'content-placeholder-text': 'Render templates before the page is served and remove TODO or FIXME notes from visible text',
+  'content-stale-copyright': 'Update the footer copyright year to the current year',
+  'content-date-agreement': 'Make schema datePublished, the visible time element, and the year in the URL the same published year',
+  'content-hidden-text': 'Remove long text hidden with an inline style; screen-reader text should use an sr-only class',
+  'content-thin-vs-site': 'Bring this page toward the word count of the other pages of the same kind',
+  'content-title-pattern': 'Use the same title suffix the rest of the site uses, including the separator',
 
   // ============ JavaScript Rendering (16 rules) ============
   'js-rendered-title': 'Ensure the page title is present in raw HTML, not only injected by JavaScript',
@@ -260,6 +286,11 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'a11y-iframe-title': 'Add a descriptive title attribute to every <iframe> and <frame>',
   'a11y-input-image-alt': 'Add alt text to <input type="image"> describing the button action',
   'a11y-label-name-mismatch': 'Ensure the aria-label text contains the element visible label text',
+  'a11y-button-name': 'Give each button visible text, an aria-label, or an image alt',
+  'a11y-autocomplete': 'Set autocomplete="email" on email fields and autocomplete="tel" on telephone fields',
+  'a11y-xml-lang-mismatch': 'Set lang and xml:lang on the html element to the same language tag',
+  'a11y-aria-hidden-body': 'Remove aria-hidden from the html and body elements',
+  'a11y-aria-required': 'Give tab, menuitem, option, and treeitem their required parent role, and give those parents a child',
   'a11y-list-structure': 'Put <li> items only inside <ul>/<ol>, and keep only <li> items inside lists',
   'a11y-main-landmark': 'Add exactly one <main> landmark wrapping the primary page content',
   'a11y-object-alt': 'Provide a text alternative for <object> elements via fallback content or aria-label',
@@ -296,6 +327,8 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'eeat-terms-of-service': 'Add ToS link in footer (especially for e-commerce, SaaS, and UGC platforms)',
   'eeat-trust-signals': 'Add customer reviews, certifications, security badges, or media mentions',
   'eeat-ymyl-detection': 'Strengthen E-E-A-T signals on YMYL pages (health, finance, legal) with expert authors and citations',
+  'eeat-geo-meta': 'Add geo.region, geo.placename, or geo.position on pages that publish local-business schema',
+  'eeat-nap-consistency': 'Publish one phone number and one postal address for each organization name',
 
   // ============ URL Structure (14 rules) ============
   'url-slug-keywords': 'Use descriptive keywords in URL slugs (e.g., /blue-running-shoes instead of /product-12345)',
@@ -368,12 +401,20 @@ export const FIX_SUGGESTIONS: Record<string, string> = {
   'htmlval-base-url': 'Use at most one <base> element with a valid, non-empty href; relative links resolve against it',
   'htmlval-title-outside-head': 'Move the <title> element into the <head>; titles outside <head> may be ignored by search engines',
 
-  // ============ AI/GEO Readiness (5 rules) ============
+  // ============ AI/GEO Readiness (7 rules) ============
   'geo-semantic-html': 'Use semantic HTML elements (<article>, <section>, <nav>, <aside>) instead of generic <div> tags',
   'geo-content-structure': 'Structure content with clear headings, lists, and paragraphs for AI comprehension and featured snippets',
   'geo-ai-bot-access': 'Allow AI crawlers (GPTBot, Claude, Perplexity) in robots.txt for AI search visibility',
   'geo-llms-txt': 'Add /llms.txt file to provide AI-friendly site information and content guidance',
   'geo-schema-drift': 'Ensure JSON-LD structured data accurately reflects visible page content; fix mismatches between schema and text',
+  'geo-content-signals': 'Fix Content-Signal syntax and set ai-train=no when robots.txt disallows training crawlers',
+  'geo-noai-signals': 'noai and noimageai are reported only; remove them if you want AI answers to quote this page',
+  'geo-agents-md': 'Publish /AGENTS.md as text or Markdown, not as the site HTML fallback',
+  'geo-well-known': 'Publish /.well-known/mcp.json or /.well-known/agent-card.json for agents that should call this site',
+  'geo-rsl-license': 'Point the robots.txt License directive at a document that returns 200 and describes the license',
+  'geo-markdown-response': 'Serve Markdown for / via Accept: text/markdown, or publish /index.md',
+  'geo-markdown-page': 'Serve Markdown for this URL via Accept: text/markdown, or publish the same path with a .md suffix',
+  'geo-pay-per-crawl': 'Add a Pay or Crawler-Price header, or a payment link, when the response is HTTP 402',
 
   // ============ Legal Compliance (1 rule) ============
   'legal-cookie-consent': 'Add a cookie consent banner using CookieYes, OneTrust, or Cookiebot; allow users to accept/reject non-essential cookies',

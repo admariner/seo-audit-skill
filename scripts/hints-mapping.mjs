@@ -1,4 +1,4 @@
-// Hand-authored classification of each reference-catalog hint against the squirrelscan rule set.
+// Hand-authored classification of each reference-catalog hint against this CLI's rule set.
 // status: COVERED | PARTIAL | MISSING | SKIP
 // Used by map-hints.mjs to emit reports/hints-mapping.json and PRD tables.
 export const MAPPING = {

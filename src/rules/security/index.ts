@@ -34,6 +34,9 @@ import { cspXssRule } from './csp-xss.js';
 import { infoDisclosureRule } from './info-disclosure.js';
 import { pasteBlockingRule } from './paste-blocking.js';
 import { trustedTypesRule } from './trusted-types.js';
+import { sriRule } from './sri.js';
+import { obfuscatedScriptRule } from './obfuscated-script.js';
+import { brandImpersonationRule } from './brand-impersonation.js';
 
 // Export all rules
 export {
@@ -60,6 +63,9 @@ export {
   infoDisclosureRule,
   pasteBlockingRule,
   trustedTypesRule,
+  sriRule,
+  obfuscatedScriptRule,
+  brandImpersonationRule,
 };
 
 // Register all rules
@@ -86,3 +92,6 @@ registerRule(cspXssRule);
 registerRule(infoDisclosureRule);
 registerRule(pasteBlockingRule);
 registerRule(trustedTypesRule);
+registerRule(sriRule);
+registerRule(obfuscatedScriptRule);
+registerRule(brandImpersonationRule);

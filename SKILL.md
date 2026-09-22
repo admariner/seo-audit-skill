@@ -1,11 +1,11 @@
 ---
 name: seo-audit
-description: Audit websites for SEO, technical, content, security, JS rendering, and AI readiness using SEOmator CLI. Returns LLM-optimized reports with health scores across 332 rules and 20 categories, and can diff two audits to show what a deploy changed. Use when analyzing websites, debugging SEO issues, checking site health, or comparing a site before and after a change.
+description: Audit websites for SEO, technical, content, security, JS rendering, and AI readiness using SEOmator CLI. Returns LLM-optimized reports with health scores across 373 rules and 20 categories, and can diff two audits to show what a deploy changed. Use when analyzing websites, debugging SEO issues, checking site health, or comparing a site before and after a change.
 license: MIT
 compatibility: Requires Node.js 20.3+ and npm. Chrome/Chromium optional for Core Web Vitals and JS rendering.
 metadata:
   author: seomator
-  version: "5.0.0"
+  version: "5.1.0"
 allowed-tools: Bash(seomator:*)
 ---
 
@@ -13,7 +13,7 @@ allowed-tools: Bash(seomator:*)
 
 Audit websites for SEO, technical, content, performance, security, JavaScript rendering, and AI readiness using the SEOmator CLI.
 
-SEOmator provides comprehensive website auditing by analyzing website structure and content against **332 rules** across **20 categories**.
+SEOmator provides comprehensive website auditing by analyzing website structure and content against **373 rules** across **20 categories**.
 
 It provides a list of issues with severity levels, affected URLs, and actionable fix suggestions.
 
@@ -25,27 +25,27 @@ It provides a list of issues with severity levels, affected URLs, and actionable
 
 ## What This Skill Does
 
-This skill enables AI agents to audit websites for **332 rules** in **20 categories**, including:
+This skill enables AI agents to audit websites for **373 rules** in **20 categories**, including:
 
 - **Core SEO** (24 rules): Canonical URLs, indexing directives, title uniqueness, canonical conflicts/loops
-- **Performance** (26 rules): LCP, CLS, FCP, TTFB, INP, compression, caching, minification, HTTP/2
-- **Links** (24 rules): Broken links, redirect chains, anchor text, localhost/fragment links, plus click depth and inbound internal links from the site graph (`--crawl`)
+- **Performance** (28 rules): LCP, CLS, FCP, TTFB, INP, compression, caching, minification, HTTP/2
+- **Links** (27 rules): Broken links, redirect chains, anchor text, localhost/fragment links, plus click depth and inbound internal links from the site graph (`--crawl`)
 - **Images** (14 rules): Alt text, dimensions, lazy loading, modern formats, alt length, background images
-- **Security** (23 rules): HTTPS, HSTS, CSP, external link safety, leaked secrets, SSL expiry/protocol, cookie flags and lifetime
-- **Technical SEO** (17 rules): robots.txt, sitemap.xml, URL structure, 404 pages, soft 404s, error codes
-- **Crawlability** (35 rules): Sitemap conflicts, indexability signals, canonical chains, pagination issues, sitemap lastmod quality
-- **Structured Data** (13 rules): Schema.org markup, Article, Organization, FAQ, Product, Breadcrumb
+- **Security** (26 rules): HTTPS, HSTS, CSP, external link safety, leaked secrets, SSL expiry/protocol, cookie flags and lifetime
+- **Technical SEO** (18 rules): robots.txt, sitemap.xml, URL structure, 404 pages, soft 404s, error codes
+- **Crawlability** (38 rules): Sitemap conflicts, indexability signals, canonical chains, pagination issues, sitemap lastmod quality
+- **Structured Data** (19 rules): Schema.org markup, Article, Organization, FAQ, Product, Breadcrumb
 - **JavaScript Rendering** (16 rules): Rendered DOM checks, raw vs rendered mismatches, SSR detection, console errors, failed resource requests
-- **Accessibility** (31 rules): ARIA labels, color contrast, form labels, landmarks, touch targets
-- **Content** (19 rules): Word count, readability, keyword density, duplicate detection, pixel widths
+- **Accessibility** (36 rules): ARIA labels, color contrast, form labels, landmarks, touch targets
+- **Content** (27 rules): Word count, readability, keyword density, duplicate detection, pixel widths
 - **Social** (9 rules): Open Graph tags, Twitter cards, share buttons, profile links
-- **E-E-A-T** (14 rules): Author bylines, citations, trust signals, about/contact pages, YMYL detection
+- **E-E-A-T** (16 rules): Author bylines, citations, trust signals, about/contact pages, YMYL detection
 - **URL Structure** (14 rules): Keyword slugs, stop words, uppercase, underscores, session IDs, tracking params
 - **Redirects** (11 rules): Redirect loops, types (301/302), meta refresh, JavaScript redirects, broken redirects
 - **Mobile** (12 rules): Font sizes, horizontal scroll, interstitials, viewport, mobile-first parity (content, title, canonical, structured data, links) via `--mobile`
 - **Internationalization** (13 rules): lang attribute, hreflang validation (return links, conflicts, mismatches)
 - **HTML Validation** (11 rules): Doctype, charset, head structure, lorem ipsum, multiple titles/descriptions
-- **AI/GEO Readiness** (5 rules): Semantic HTML, AI bot access, llms.txt, schema drift
+- **AI/GEO Readiness** (13 rules): Semantic HTML, AI bot access, llms.txt, schema drift
 - **Legal Compliance** (1 rule): Cookie consent
 
 The audit crawls the website, analyzes each page against audit rules, and returns a comprehensive report with:
@@ -457,7 +457,7 @@ seomator audit https://example.com
 3. **Enrich**: Fetches robots.txt and sitemap once per audit
 4. **Render** (if CWV enabled): Captures rendered DOM via Playwright, plus console errors and failed resource requests
 5. **Crawl** (if enabled): Discovers and fetches linked pages
-6. **Analyze**: Runs 332 audit rules against each page
+6. **Analyze**: Runs 373 audit rules against each page
 7. **Score**: Calculates category and overall weighted scores
 8. **Report**: Generates output in requested format
 
@@ -492,6 +492,6 @@ untrusted delimiters would dilute the signal.
 
 ## Resources
 
-- **Full rules reference**: See `docs/SEO-AUDIT-RULES.md` for all 332 rules
+- **Full rules reference**: See `docs/SEO-AUDIT-RULES.md` for all 373 rules
 - **Storage architecture**: See `docs/STORAGE-ARCHITECTURE.md` for database details
 - **CLI help**: `seomator --help` and `seomator <command> --help`

@@ -34,6 +34,8 @@ import { privacyPolicyRule } from './privacy-policy.js';
 import { termsOfServiceRule } from './terms-of-service.js';
 import { trustSignalsRule } from './trust-signals.js';
 import { ymylDetectionRule, detectYMYL, YMYL_CATEGORIES } from './ymyl-detection.js';
+import { geoMetaRule } from './geo-meta.js';
+import { napConsistencyRule } from './nap-consistency.js';
 
 // Export all rules
 export {
@@ -51,6 +53,8 @@ export {
   termsOfServiceRule,
   trustSignalsRule,
   ymylDetectionRule,
+  geoMetaRule,
+  napConsistencyRule,
 };
 
 // Export YMYL detection utility for use by other rules
@@ -72,3 +76,5 @@ registerRule(privacyPolicyRule);
 registerRule(termsOfServiceRule);
 registerRule(trustSignalsRule);
 registerRule(ymylDetectionRule);
+registerRule(geoMetaRule);
+registerRule(napConsistencyRule);

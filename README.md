@@ -5,7 +5,7 @@
 [![node](https://img.shields.io/node/v/@seomator/seo-audit.svg)](https://www.npmjs.com/package/@seomator/seo-audit)
 [![license: MIT](https://img.shields.io/npm/l/@seomator/seo-audit.svg)](./LICENSE)
 
-**SEOmator is a comprehensive SEO audit tool that scans any website against 332 rules across 20 categories** — technical SEO, Core Web Vitals, structured data, accessibility, security headers, and AI/GEO search readiness — and returns a prioritized, actionable report. It ships as a **command-line tool**, an **Electron desktop app**, and a **Claude Code skill**, so you can run an SEO audit from a terminal, a visual dashboard, or directly inside an AI coding agent.
+**SEOmator is a comprehensive SEO audit tool that scans any website against 373 rules across 20 categories** — technical SEO, Core Web Vitals, structured data, accessibility, security headers, and AI/GEO search readiness — and returns a prioritized, actionable report. It ships as a **command-line tool**, an **Electron desktop app**, and a **Claude Code skill**, so you can run an SEO audit from a terminal, a visual dashboard, or directly inside an AI coding agent.
 
 > **Prefer a web interface?** Try our [Free SEO Audit Tool](https://seomator.com/free-seo-audit-tool) for a visual, browser-based SEO analysis.
 
@@ -280,7 +280,7 @@ seomator self doctor -v          # Verbose diagnostics
 | 1 | Audit failed (score < 70) |
 | 2 | Error occurred |
 
-## Categories & Rules (332 total)
+## Categories & Rules (373 total)
 
 ### Core (24 rules) - 12% weight
 
@@ -311,7 +311,7 @@ seomator self doctor -v          # Verbose diagnostics
 | `core-canonical-external` | Canonical pointing to a different host (worth verifying) |
 | `core-robots-directive-mismatch` | Robots directives in meta tags and X-Robots-Tag header should be consistent |
 
-### Performance (26 rules) - 12% weight
+### Performance (28 rules) - 12% weight
 
 | Rule | Description |
 |------|-------------|
@@ -340,9 +340,11 @@ seomator self doctor -v          # Verbose diagnostics
 | `perf-asset-compression` | Text assets >2KB should be gzip/Brotli compressed (requires render) |
 | `perf-asset-cache-policy` | Static assets should have cache max-age of at least 1 hour (requires render) |
 | `perf-legacy-javascript` | No polyfills modern browsers do not need |
+| `perf-duplicate-js` | A known library is not loaded from more than one script URL |
+| `perf-source-maps` | No sourceMappingURL comment or SourceMap header |
 | `perf-image-encoding` | Images should be <100KB and not legacy BMP/TIFF (requires render) |
 
-### Links (24 rules) - 8% weight
+### Links (27 rules) - 8% weight
 
 | Rule | Description |
 |------|-------------|
@@ -370,6 +372,9 @@ seomator self doctor -v          # Verbose diagnostics
 | `links-inbound-mixed-follow` | Mixed followed/nofollowed inbound links (requires `--crawl`) |
 | `links-inbound-low-quality` | No inbound internal link passes link equity (requires `--crawl`) |
 | `links-inbound-anchor-text` | All followed inbound links use generic anchor text (requires `--crawl`) |
+| `links-nofollow-internal` | Same-host links should not carry rel=nofollow |
+| `links-weak-inbound` | A non-entry page has more than one dofollow inbound link (requires `--crawl`) |
+| `links-chrome-inbound` | At least one inbound link sits outside the nav, header, and footer (requires `--crawl`) |
 
 ### Images (14 rules) - 8% weight
 
@@ -390,7 +395,7 @@ seomator self doctor -v          # Verbose diagnostics
 | `images-alt-length` | Alt text should be under 125 characters |
 | `images-background-seo` | Content images should use `<img>`, not CSS background |
 
-### Security (23 rules) - 8% weight
+### Security (26 rules) - 8% weight
 
 | Rule | Description |
 |------|-------------|
@@ -417,8 +422,11 @@ seomator self doctor -v          # Verbose diagnostics
 | `security-info-disclosure` | Headers should not advertise server software/version |
 | `security-paste-blocking` | Input fields should not prevent pasting |
 | `security-trusted-types` | CSP should require Trusted Types for DOM XSS sinks |
+| `security-sri` | Cross-origin scripts and stylesheets set an integrity hash |
+| `security-obfuscated-script` | No long high-entropy inline script calls eval, Function, or atob |
+| `security-brand-impersonation` | Brand sign-in links point at the brand or this host |
 
-### Technical SEO (17 rules) - 7% weight
+### Technical SEO (18 rules) - 7% weight
 
 | Rule | Description |
 |------|-------------|
@@ -439,8 +447,9 @@ seomator self doctor -v          # Verbose diagnostics
 | `technical-form-get-method` | Forms should not submit with the GET method |
 | `technical-duplicate-gtm` | No multiple Google Tag Manager containers |
 | `technical-duplicate-ga` | No multiple Google Analytics property IDs |
+| `technical-consent-mode` | A Google tag is paired with a consent update |
 
-### Crawlability (35 rules) - 5% weight
+### Crawlability (38 rules) - 5% weight
 
 | Rule | Description |
 |------|-------------|
@@ -479,8 +488,11 @@ seomator self doctor -v          # Verbose diagnostics
 | `crawl-hreflang-incoming-conflict` | Incoming hreflang annotations should not conflict (requires `--crawl`) |
 | `crawl-hreflang-reciprocity` | Hreflang targets should annotate this page in return (requires `--crawl`) |
 | `crawl-isolated-url` | Page should be reachable via ordinary internal links (requires `--crawl`) |
+| `crawl-canonical-form-drift` | Canonicals agree on www, scheme, and trailing slash (requires `--crawl`) |
+| `crawl-sitemap-date-drift` | Sitemap lastmod and schema dateModified fall on the same day |
+| `crawl-pdf-size` | Linked PDF files are at most 10 MB |
 
-### Structured Data (13 rules) - 5% weight
+### Structured Data (19 rules) - 5% weight
 
 | Rule | Description |
 |------|-------------|
@@ -497,6 +509,12 @@ seomator self doctor -v          # Verbose diagnostics
 | `schema-review` | Validates Review/AggregateRating schema |
 | `schema-video` | Validates VideoObject schema |
 | `schema-website-search` | Checks WebSite sitelinks searchbox |
+| `schema-entity-id` | Organization, WebSite, Person, and Business entities use an absolute @id |
+| `schema-rating-scope` | AggregateRating stays on the page it describes, and ratingValue is visible |
+| `schema-entity-conflict` | One absolute @id does not carry two logos or two phone numbers (requires `--crawl`) |
+| `schema-entity-dangling` | publisher, author, and isPartOf @ids are declared in the crawl (requires `--crawl`) |
+| `schema-entity-type-drift` | One absolute @id keeps the same @type (requires `--crawl`) |
+| `schema-entity-split` | One organization or person name is not published under two absolute @ids (requires `--crawl`) |
 
 ### JavaScript Rendering (16 rules) - 5% weight
 
@@ -519,7 +537,7 @@ seomator self doctor -v          # Verbose diagnostics
 | `js-failed-requests` | Scripts, stylesheets and other subresources load successfully |
 | `js-document-write` | Inline scripts should not use `document.write()` |
 
-### Accessibility (31 rules) - 4% weight
+### Accessibility (36 rules) - 4% weight
 
 | Rule | Description |
 |------|-------------|
@@ -554,8 +572,13 @@ seomator self doctor -v          # Verbose diagnostics
 | `a11y-table-caption` | Data tables use `<caption>` |
 | `a11y-identical-links-purpose` | Same link text should point to same destination |
 | `a11y-label-name-mismatch` | aria-label should contain the visible text |
+| `a11y-button-name` | Buttons and role=button controls have an accessible name |
+| `a11y-autocomplete` | Email and tel inputs set the matching autocomplete token |
+| `a11y-xml-lang-mismatch` | lang and xml:lang on html name the same language |
+| `a11y-aria-hidden-body` | html and body are not aria-hidden |
+| `a11y-aria-required` | Explicit ARIA widget roles have their required parent and child roles |
 
-### Content (19 rules) - 5% weight
+### Content (27 rules) - 5% weight
 
 | Rule | Description |
 |------|-------------|
@@ -578,6 +601,14 @@ seomator self doctor -v          # Verbose diagnostics
 | `content-duplicate-exact` | Detects exact duplicate content across pages |
 | `content-duplicate-near` | Detects near-duplicate content via simhash |
 | `content-duplicate-h1` | H1 text should be unique across crawled pages (requires `--crawl`) |
+| `content-mojibake` | Visible text is not UTF-8 decoded as Latin-1 or Windows-1252 |
+| `content-unrendered-markup` | No literal Markdown such as **bold** outside code |
+| `content-placeholder-text` | No unrendered template syntax or TODO/FIXME notes |
+| `content-stale-copyright` | Footer copyright year is the current year |
+| `content-date-agreement` | datePublished, time datetime, and a URL year agree |
+| `content-hidden-text` | No long text hidden with an inline style |
+| `content-thin-vs-site` | A page is not far shorter than the median page of the same kind (requires `--crawl`) |
+| `content-title-pattern` | The title keeps the suffix most of the site uses (requires `--crawl`) |
 
 ### Social (9 rules) - 3% weight
 
@@ -593,7 +624,7 @@ seomator self doctor -v          # Verbose diagnostics
 | `social-share-buttons` | Social share buttons present |
 | `social-profiles` | Social profile links present |
 
-### E-E-A-T (14 rules) - 3% weight
+### E-E-A-T (16 rules) - 3% weight
 
 | Rule | Description |
 |------|-------------|
@@ -611,6 +642,8 @@ seomator self doctor -v          # Verbose diagnostics
 | `eeat-terms-of-service` | Terms of service link present |
 | `eeat-trust-signals` | Trust badges, reviews, certifications |
 | `eeat-ymyl-detection` | YMYL content detection |
+| `eeat-geo-meta` | Pages with local-business schema also set a geo meta tag |
+| `eeat-nap-consistency` | One organization name keeps a single phone and address (requires `--crawl`) |
 
 ### URL Structure (14 rules) - 3% weight
 
@@ -698,7 +731,7 @@ seomator self doctor -v          # Verbose diagnostics
 | `htmlval-title-outside-head` | No `<title>` element outside of `<head>` |
 | `htmlval-base-url` | At most one `<base>` element with a valid href |
 
-### AI/GEO Readiness (5 rules) - 2% weight
+### AI/GEO Readiness (13 rules) - 2% weight
 
 | Rule | Description |
 |------|-------------|
@@ -707,6 +740,14 @@ seomator self doctor -v          # Verbose diagnostics
 | `geo-ai-bot-access` | AI crawlers (GPTBot, ClaudeBot) not blocked |
 | `geo-llms-txt` | /llms.txt file for AI discovery |
 | `geo-schema-drift` | JSON-LD matches visible content |
+| `geo-content-signals` | Content-Signal in robots.txt is valid and consistent |
+| `geo-noai-signals` | Reports noai and noimageai without penalising them |
+| `geo-agents-md` | AGENTS.md exists and is not an HTML fallback |
+| `geo-well-known` | An MCP or agent-card manifest exists under .well-known |
+| `geo-rsl-license` | A robots.txt License URL resolves to a license document |
+| `geo-markdown-response` | The origin serves a Markdown representation of / |
+| `geo-markdown-page` | A non-root URL has a Markdown representation |
+| `geo-pay-per-crawl` | An HTTP 402 response includes payment terms |
 
 ### Legal Compliance (1 rule) - 1% weight
 
@@ -892,7 +933,7 @@ npx skills add seo-skills/seo-audit-skill
 
 ### What is SEOmator?
 
-SEOmator is an SEO audit tool that checks a website against 332 rules across 20 categories — covering technical SEO, Core Web Vitals, structured data, accessibility, security headers, content quality, and AI/GEO search readiness — and returns a scored, prioritized report of what to fix first. It's available as an open-source CLI, an Electron desktop app, and a Claude Code skill.
+SEOmator is an SEO audit tool that checks a website against 373 rules across 20 categories — covering technical SEO, Core Web Vitals, structured data, accessibility, security headers, content quality, and AI/GEO search readiness — and returns a scored, prioritized report of what to fix first. It's available as an open-source CLI, an Electron desktop app, and a Claude Code skill.
 
 ### How is SEOmator different from Lighthouse or PageSpeed Insights?
 

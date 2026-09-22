@@ -46,7 +46,7 @@ The desktop app reuses the CLI's `Auditor` class directly — no HTTP APIs, no c
 │                                                                │
 │  AuditSession ──► Auditor (from src/auditor.ts)                │
 │    └── fetchPage() → Cheerio parse → runAllCategories()        │
-│        └── 332 rules across 20 categories                      │
+│        └── 373 rules across 20 categories                      │
 │    └── saveAuditToDatabase(source: 'desktop')                  │
 │                                                                │
 │  db-bridge.ts ──► src/dashboard/queries.ts                     │

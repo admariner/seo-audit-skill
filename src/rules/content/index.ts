@@ -58,6 +58,14 @@ import {
   resetNearDuplicateRegistry,
 } from './duplicate-near.js';
 import { duplicateH1Rule } from './duplicate-h1.js';
+import { mojibakeRule } from './mojibake.js';
+import { unrenderedMarkupRule } from './unrendered-markup.js';
+import { placeholderTextRule } from './placeholder-text.js';
+import { staleCopyrightRule } from './stale-copyright.js';
+import { dateAgreementRule } from './date-agreement.js';
+import { hiddenTextRule } from './hidden-text.js';
+import { thinVsSiteRule } from './thin-vs-site.js';
+import { titlePatternRule } from './title-pattern.js';
 
 // Export all rules
 export {
@@ -82,6 +90,14 @@ export {
   duplicateExactRule,
   duplicateNearRule,
   duplicateH1Rule,
+  mojibakeRule,
+  unrenderedMarkupRule,
+  placeholderTextRule,
+  staleCopyrightRule,
+  dateAgreementRule,
+  hiddenTextRule,
+  thinVsSiteRule,
+  titlePatternRule,
 };
 
 // Export utility functions for duplicate description tracking
@@ -110,3 +126,11 @@ registerRule(descriptionPixelWidthRule);
 registerRule(duplicateExactRule);
 registerRule(duplicateNearRule);
 registerRule(duplicateH1Rule);
+registerRule(mojibakeRule);
+registerRule(unrenderedMarkupRule);
+registerRule(placeholderTextRule);
+registerRule(staleCopyrightRule);
+registerRule(dateAgreementRule);
+registerRule(hiddenTextRule);
+registerRule(thinVsSiteRule);
+registerRule(titlePatternRule);

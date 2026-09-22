@@ -30,6 +30,9 @@ import { inboundAllNofollowRule } from './inbound-all-nofollow.js';
 import { inboundMixedFollowRule } from './inbound-mixed-follow.js';
 import { inboundLowQualityRule } from './inbound-low-quality.js';
 import { inboundAnchorTextRule } from './inbound-anchor-text.js';
+import { nofollowInternalRule } from './nofollow-internal.js';
+import { weakInboundRule } from './weak-inbound.js';
+import { chromeInboundRule } from './chrome-inbound.js';
 
 // Export all rules
 export {
@@ -57,6 +60,9 @@ export {
   inboundMixedFollowRule,
   inboundLowQualityRule,
   inboundAnchorTextRule,
+  nofollowInternalRule,
+  weakInboundRule,
+  chromeInboundRule,
 };
 
 // Register all rules
@@ -84,3 +90,6 @@ registerRule(inboundAllNofollowRule);
 registerRule(inboundMixedFollowRule);
 registerRule(inboundLowQualityRule);
 registerRule(inboundAnchorTextRule);
+registerRule(nofollowInternalRule);
+registerRule(weakInboundRule);
+registerRule(chromeInboundRule);

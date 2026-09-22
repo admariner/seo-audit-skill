@@ -2,7 +2,7 @@
 
 > CLI Website Audits for Humans, Agents & LLMs
 
-A comprehensive SEO audit tool with **332 rules** across **20 categories** that fits into your AI workflow. Built with Node.js, works with your system browser.
+A comprehensive SEO audit tool with **373 rules** across **20 categories** that fits into your AI workflow. Built with Node.js, works with your system browser.
 
 ## Quick Links
 
@@ -91,32 +91,32 @@ Console, JSON, HTML reports, Markdown, LLM-friendly output. Export exactly what 
 
 ## Rule Categories
 
-SEOmator runs **332 rules** across **20 categories**:
+SEOmator runs **373 rules** across **20 categories**:
 
 | Category | Weight | Rules | Description |
 |----------|--------|-------|-------------|
 | **Core SEO** | 11% | 24 | Meta tags, canonical, H1, indexing directives |
-| **Performance** | 10% | 26 | Core Web Vitals + performance optimization hints |
-| **Links** | 8% | 24 | Broken links, anchor text, internal linking, nofollow |
+| **Performance** | 10% | 28 | Core Web Vitals + performance optimization hints |
+| **Links** | 8% | 27 | Broken links, anchor text, internal linking, nofollow |
 | **Images** | 8% | 14 | Alt text, dimensions, lazy loading, WebP/AVIF, srcset |
-| **Security** | 8% | 23 | HTTPS, security headers, CSP strength, mixed content, SSL |
-| **Accessibility** | 7% | 31 | WCAG, ARIA validity, landmarks, list/table structure, contrast |
-| **Technical SEO** | 7% | 17 | robots.txt, sitemap, URL hygiene, www redirect, custom 404 |
-| **Crawlability** | 5% | 35 | Indexability signals, sitemap coverage, pagination |
-| **Structured Data** | 5% | 13 | JSON-LD presence/validity, required fields |
-| **Content** | 5% | 19 | Word count, thin content, readability, duplicates |
+| **Security** | 8% | 26 | HTTPS, security headers, CSP strength, mixed content, SSL |
+| **Accessibility** | 7% | 36 | WCAG, ARIA validity, landmarks, list/table structure, contrast |
+| **Technical SEO** | 7% | 18 | robots.txt, sitemap, URL hygiene, www redirect, custom 404 |
+| **Crawlability** | 5% | 38 | Indexability signals, sitemap coverage, pagination |
+| **Structured Data** | 5% | 19 | JSON-LD presence/validity, required fields |
+| **Content** | 5% | 27 | Word count, thin content, readability, duplicates |
 | **JavaScript Rendering** | 5% | 16 | CSR vs SSR, rendered-DOM diff, console errors, document.write |
 | **Social** | 3% | 9 | Open Graph, Twitter Card, og:image validity |
-| **E-E-A-T** | 3% | 14 | Author bylines, dates, about/contact pages, citations |
+| **E-E-A-T** | 3% | 16 | Author bylines, dates, about/contact pages, citations |
 | **URL Structure** | 3% | 14 | Lowercase, hyphens, length, parameters, trailing slash |
 | **Redirects** | 3% | 11 | Chains, loops, 302-vs-301, meta refresh |
 | **Mobile** | 2% | 12 | Viewport, font sizes, tap spacing, mobile-first parity |
 | **Internationalization** | 2% | 13 | hreflang validity, x-default, lang attributes |
 | **HTML Validation** | 2% | 11 | DOCTYPE, charset, head structure, duplicate meta |
-| **AI/GEO Readiness** | 2% | 5 | AI crawler access, llms.txt, citability structure |
+| **AI/GEO Readiness** | 2% | 13 | AI crawler access, llms.txt, citability structure |
 | **Legal Compliance** | 1% | 1 | Cookie consent, privacy policy presence |
 
-**Total: 100% weight, 332 rules across 20 categories.**
+**Total: 100% weight, 373 rules across 20 categories.**
 
 ## Resources
 

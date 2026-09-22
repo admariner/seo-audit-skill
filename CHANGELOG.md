@@ -31,6 +31,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (18 → 19), eeat (15 → 16), geo (11 → 13), and accessibility (35 → 36) now
   average in more results. On the pinned fixture the overall score stays 91.
 
+### Fixed
+
+- The README features list and contents link still said 332 rules. The catalog
+  weights now match the registry (core 11%, performance 10%, accessibility 7%),
+  and the lines for DOM size, response time, page weight, inline JavaScript,
+  HTML size, `noscript` in `head`, canonical-plus-noindex, and AI crawler
+  access describe what those rules measure.
+
 ## [5.1.0] - 2026-09-22
 
 ### Added

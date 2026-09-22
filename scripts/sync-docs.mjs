@@ -72,8 +72,9 @@ const rewrites = [
   [/v\d+\.\d+\.\d+(\s*•\s*)\d+ rules(\s*•\s*)\d+ categories/g,
     `v${version}$1${ruleCount} rules$2${categoryCount} categories`],
   // skill/README.md: "**55 SEO Rules** across 9 categories".
-  [/\*\*\d+ SEO Rules\*\* across \d+ categories/g,
-    `**${ruleCount} SEO Rules** across ${categoryCount} categories`],
+  // README features: "**332 SEO Audit Rules** across 20 categories".
+  [/\*\*\d+ SEO( Audit)? Rules\*\* across \d+ categories/g,
+    (whole) => `**${ruleCount} SEO${whole.includes('Audit') ? ' Audit' : ''} Rules** across ${categoryCount} categories`],
 ];
 
 /** The skill manifest tracks the package it wraps. */

@@ -16,7 +16,7 @@
 - [Desktop App](#desktop-app)
 - [Quick Start (CLI)](#quick-start-cli)
 - [Commands](#commands)
-- [Categories & Rules](#categories--rules-332-total)
+- [Categories & Rules](#categories--rules-373-total)
 - [Configuration](#configuration)
 - [Output Formats](#output-formats)
 - [CI/CD Integration](#cicd-integration)
@@ -27,7 +27,7 @@
 
 ## Features
 
-- **332 SEO Audit Rules** across 20 categories
+- **373 SEO Audit Rules** across 20 categories
 - **Desktop App** - Visual audit dashboard with real-time progress, interactive results, score history, and light/dark theme
 - **CLI Tool** - Single page & crawl mode with 5 output formats
 - **Core Web Vitals** - LCP, CLS, FCP, TTFB, INP measurement via Playwright
@@ -282,7 +282,7 @@ seomator self doctor -v          # Verbose diagnostics
 
 ## Categories & Rules (373 total)
 
-### Core (24 rules) - 12% weight
+### Core (24 rules) - 11% weight
 
 | Rule | Description |
 |------|-------------|
@@ -304,14 +304,14 @@ seomator self doctor -v          # Verbose diagnostics
 | `core-canonical-to-homepage` | Canonical should not always point to homepage |
 | `core-canonical-http-mismatch` | Canonical protocol should match page protocol |
 | `core-canonical-loop` | Detects circular canonical chains |
-| `core-canonical-to-noindex` | Canonical should not point to noindexed page |
+| `core-canonical-to-noindex` | A noindexed page should not also canonicalize to a different URL |
 | `core-canonical-outside-head` | No canonical element outside the `<head>` |
 | `core-canonical-attributes` | Canonical elements carry only rel and href attributes |
 | `core-canonical-multiple` | Multiple canonical elements should agree |
 | `core-canonical-external` | Canonical pointing to a different host (worth verifying) |
 | `core-robots-directive-mismatch` | Robots directives in meta tags and X-Robots-Tag header should be consistent |
 
-### Performance (28 rules) - 12% weight
+### Performance (28 rules) - 10% weight
 
 | Rule | Description |
 |------|-------------|
@@ -320,7 +320,7 @@ seomator self doctor -v          # Verbose diagnostics
 | `cwv-inp` | Interaction to Next Paint (<200ms pass, >500ms fail) |
 | `cwv-ttfb` | Time to First Byte (<800ms pass, >1800ms fail) |
 | `cwv-fcp` | First Contentful Paint (<1.8s pass, >3s fail) |
-| `perf-dom-size` | DOM should have <1500 nodes |
+| `perf-dom-size` | DOM under 800 nodes passes; over 1500 nodes fails |
 | `perf-css-file-size` | CSS files should be reasonably sized |
 | `perf-font-loading` | Font-display: swap should be used |
 | `perf-preconnect` | Preconnect hints for third-party origins |
@@ -332,10 +332,10 @@ seomator self doctor -v          # Verbose diagnostics
 | `perf-cache-policy` | Static assets should have cache headers |
 | `perf-minify-css` | CSS should be minified |
 | `perf-minify-js` | JavaScript should be minified |
-| `perf-response-time` | Server response time should be <200ms |
+| `perf-response-time` | Response time under 500ms passes; over 1000ms warns |
 | `perf-http2` | Site should serve over HTTP/2 |
-| `perf-page-weight` | Total page size should be <3MB |
-| `perf-js-file-size` | Individual JS files should be <500KB |
+| `perf-page-weight` | HTML document under 100KB passes; over 300KB warns |
+| `perf-js-file-size` | Total inline JavaScript under 50KB passes; over 150KB warns |
 | `perf-video-for-animations` | Use `<video>` instead of animated GIFs |
 | `perf-asset-compression` | Text assets >2KB should be gzip/Brotli compressed (requires render) |
 | `perf-asset-cache-policy` | Static assets should have cache max-age of at least 1 hour (requires render) |
@@ -537,7 +537,7 @@ seomator self doctor -v          # Verbose diagnostics
 | `js-failed-requests` | Scripts, stylesheets and other subresources load successfully |
 | `js-document-write` | Inline scripts should not use `document.write()` |
 
-### Accessibility (36 rules) - 4% weight
+### Accessibility (36 rules) - 7% weight
 
 | Rule | Description |
 |------|-------------|
@@ -722,9 +722,9 @@ seomator self doctor -v          # Verbose diagnostics
 | `htmlval-missing-doctype` | `<!DOCTYPE html>` must be present |
 | `htmlval-missing-charset` | `<meta charset>` must be in head |
 | `htmlval-invalid-head` | Only metadata elements in `<head>` |
-| `htmlval-noscript-in-head` | `<noscript>` should be in body |
+| `htmlval-noscript-in-head` | `<noscript>` in `<head>` contains only link, style, and meta |
 | `htmlval-multiple-heads` | Single `<head>` element only |
-| `htmlval-size-limit` | HTML should be under 5MB |
+| `htmlval-size-limit` | HTML under 250KB passes; over 500KB fails |
 | `htmlval-lorem-ipsum` | No placeholder lorem ipsum text |
 | `htmlval-multiple-titles` | Single `<title>` tag only |
 | `htmlval-multiple-descriptions` | Single meta description only |
@@ -737,7 +737,7 @@ seomator self doctor -v          # Verbose diagnostics
 |------|-------------|
 | `geo-semantic-html` | Uses semantic HTML elements |
 | `geo-content-structure` | Proper heading hierarchy and lists |
-| `geo-ai-bot-access` | AI crawlers (GPTBot, ClaudeBot) not blocked |
+| `geo-ai-bot-access` | Citation crawlers stay allowed; training crawlers such as GPTBot are reported and not penalised |
 | `geo-llms-txt` | /llms.txt file for AI discovery |
 | `geo-schema-drift` | JSON-LD matches visible content |
 | `geo-content-signals` | Content-Signal in robots.txt is valid and consistent |
